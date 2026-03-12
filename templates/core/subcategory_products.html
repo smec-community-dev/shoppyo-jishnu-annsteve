@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ShoppyO - Smartphones Sub-category</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1a2d37",
+                        "background-light": "#f6f7f7",
+                        "background-dark": "#151a1d",
+                        "ice-blue": "#e8f1f5",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #f6f7f7 0%, #e8f1f5 100%);
+        }
+    </style>
+</head>
+<body class="font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex flex-col min-h-screen gradient-bg">
+<!-- Dark Deep Navy Navbar -->
+<header class="bg-primary text-white px-6 md:px-20 py-4 flex items-center justify-between sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-3xl">shopping_bag</span>
+<h1 class="text-xl font-black tracking-tight uppercase">ShoppyO</h1>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-ice-blue" href="#">Home</a>
+<a class="text-sm font-medium hover:text-ice-blue" href="#">Categories</a>
+<a class="text-sm font-medium hover:text-ice-blue" href="#">Deals</a>
+<a class="text-sm font-medium hover:text-ice-blue" href="#">Support</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end items-center gap-6">
+<div class="relative max-w-xs w-full hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full bg-white/10 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-ice-blue/50 placeholder:text-slate-400" placeholder="Search tech..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center p-2 hover:bg-white/10 rounded-full">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="flex items-center justify-center p-2 hover:bg-white/10 rounded-full">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary-20 border border-white/20 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile avatar showing a smiling person" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7vaj6uTsbwhUtGlHXJpOUkMnJLHNsPf9oPu3EZXE-8YdfqAI893ZiEnC7QQKZAuvI3pPf8Vri9nx3TI6jY1YtjkWJuGmwui-pRhynWGJLhr7PitYIUCpd6fjBB60Bp2Q6zCc2bM8IDA0F3MetVAasctJZMek2dUWQrwA71OKlGpZqL6TQrUQcA_yLcLjE284-s_ttHYJHlO3z01ZOriULkzmoBWi7P2btud6dZlw8tZlbnwE3WVfm51C4v0q6i35ZQ0Akil_zM94V"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Layout Container -->
+<main class="max-w-[1400px] mx-auto w-full px-6 md:px-20 py-8 flex flex-col md:flex-row gap-8">
+<!-- Sidebar Filters -->
+<aside class="w-full md:w-64 flex-shrink-0">
+
+<form method="GET">
+
+<div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-6 flex flex-col gap-8">
+
+<!-- Filter Title -->
+<h3 class="font-bold text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">filter_list</span>
+Filters
+</h3>
+
+<div class="flex flex-col gap-6">
+
+<!-- Category Breadcrumb -->
+<div class="text-sm text-slate-500">
+    <span class="hover:text-primary cursor-pointer">Electronics</span>
+    <span class="mx-1">/</span>
+    <span class="text-primary font-semibold">Smartphones</span>
+</div>
+
+<!-- Brand Filter -->
+    <div>
+
+    <p class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3">Brand</p>
+
+        <div class="space-y-2">
+
+        <label class="flex items-center gap-2 text-sm">
+        <input type="checkbox" name="brand" value="boAt"
+        class="rounded text-primary focus:ring-primary h-4 w-4">
+        Boat
+        </label>
+
+        <label class="flex items-center gap-2 text-sm">
+        <input type="checkbox" name="brand" value="Samsung"
+        class="rounded text-primary focus:ring-primary h-4 w-4">
+        Samsung
+        </label>
+
+        <label class="flex items-center gap-2 text-sm">
+        <input type="checkbox" name="brand" value="Realme"
+        class="rounded text-primary focus:ring-primary h-4 w-4">
+        Realme
+        </label>
+
+        <label class="flex items-center gap-2 text-sm">
+        <input type="checkbox" name="brand" value="OnePlus"
+        class="rounded text-primary focus:ring-primary h-4 w-4">
+        OnePlus
+        </label>
+
+        </div>
+
+    </div>
+
+
+    <!-- Price Range -->
+<div class="space-y-4">
+    <p class="text-sm font-bold uppercase tracking-wider text-slate-400">Price Range</p>
+    
+    <div class="flex flex-col sm:flex-row md:flex-col lg:flex-row items-center gap-3">
+        
+        <div class="relative w-full">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span class="text-slate-400 text-sm">₹</span>
+            </div>
+            <input 
+                type="number" 
+                name="min_price" 
+                placeholder="Min" 
+                class="block w-full pl-7 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+            >
+        </div>
+
+        <span class="hidden sm:block md:hidden lg:block text-slate-300 font-light">—</span>
+
+        <div class="relative w-full">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span class="text-slate-400 text-sm">₹</span>
+            </div>
+            <input 
+                type="number" 
+                name="max_price" 
+                placeholder="Max" 
+                class="block w-full pl-7 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+            >
+        </div>
+    </div>
+</div>
+
+    <!-- Rating -->
+    <div>
+
+        <p class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3">Rating</p>
+
+        <div class="space-y-2">
+
+            <label class="flex items-center gap-2 text-sm">
+            <input type="radio" name="rating" value="4.5">
+            4.5 & up
+            </label>
+        
+            <label class="flex items-center gap-2 text-sm">
+            <input type="radio" name="rating" value="4">
+            4.0 & up
+            </label>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Apply Button -->
+<button type="submit"
+class="w-full bg-primary text-white py-3 rounded-lg font-bold text-sm hover:opacity-90 transition-opacity">
+Apply Filters
+</button>
+
+<button type="button" 
+class="w-full border-2 border-gray-300 text-gray-700 py-3 rounded-lg font-bold text-sm hover:border-gray-400 transition-colors"
+onclick="clearFilters()">
+Clear All
+</button>
+
+<script>
+function clearFilters() {
+    // Reset form fields
+    document.querySelector('form').reset();
+    
+    // Get the current base URL without query parameters
+    const baseUrl = window.location.pathname;
+    
+    // Redirect to the base URL to show all products without filters
+    window.location.href = baseUrl;
+}
+</script>
+
+</div>
+
+</form>
+
+</aside>
+<!-- Product Grid Area -->
+<section class="flex-1">
+<!-- Header Actions -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+<div>
+<h2 class="text-3xl font-black text-primary">Premium {{productvariant.product.subcategory.name}}</h2>
+<p class="text-slate-500">Showing 24 of 152 results</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm text-slate-500 whitespace-nowrap">Sort by:</span>
+<select class="border-slate-200 rounded-lg text-sm font-medium focus:ring-primary focus:border-primary">
+<option>Popularity</option>
+<option>Newest Arrivals</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+    {% for variant in productvariant %}
+    <div class="group relative bg-[#fdfcf5] rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-slate-200/50 flex flex-col">
+        
+        <a href="{% url 'single_product_variant' variant.product.slug %}" class="absolute inset-0 z-10" aria-label="View {{ variant.product.name }}"></a>
+
+        <div class="relative aspect-square p-6 overflow-hidden bg-slate-50/30">
+
+<!-- ------productImage---------- -->
+            <!-- {% with variant.images.all as all_images %}
+                {% if all_images %}
+                    <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" 
+                         src="{% for img in all_images %}
+                                {% if img.is_primary %}
+                                    {{ img.image_url }}
+                                {% endif %}
+                                {% if forloop.last and not img.is_primary %}
+                                    {{ all_images.0.image_url }}
+                                {% endif %}
+                            {% endfor %}" 
+                         alt="{{ variant.product.name }} - {{ variant.alt_text|default:'Product Image' }}"/>
+                        {% else %}
+                            <img class="w-full h-full object-contain opacity-40" src="https://via.placeholder.com/400x400?text=No+Image" alt="Placeholder"/>
+                {% endif %}
+            {% endwith %} -->
+
+            <!-- {% with variant.images.all.0 as img %}
+                <img src="{{ img.image_url|default:'https://via.placeholder.com/300' }}" 
+                     class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
+            {% endwith %} -->
+
+            <!-- {% for img in variant.images.all %}
+                <img src="{{ img.image_url }}">
+            {% endfor %} -->
+
+            {% with variant.images.all as images %}
+                {% for img in images %}
+                    {% if img.is_primary %}
+                        <img src="{{ img.image_url }}">
+                    {% endif %}
+                {% empty %}
+                    <img src="https://via.placeholder.com/300">
+                {% endfor %}
+
+                {% if not images|length %}
+                <img src="https://via.placeholder.com/300">
+                {% endif %}
+            {% endwith %}
+
+            <span class="absolute top-4 right-4 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded">NEW</span>
+        </div>
+
+        <div class="p-6 flex flex-col flex-1">
+            <p class="text-xs font-medium text-slate-400 uppercase tracking-widest mb-1">{{ variant.product.brand }}</p>
+            
+            <h3 class="font-bold text-slate-900 mb-2 leading-tight">
+                {{ variant.product.name }}
+            </h3>
+
+            <div class="flex items-center gap-1 mb-4">
+                <span class="material-symbols-outlined text-yellow-400 text-sm fill-current">star</span>
+                <span class="material-symbols-outlined text-yellow-400 text-sm fill-current">star</span>
+                <span class="material-symbols-outlined text-yellow-400 text-sm fill-current">star</span>
+                <span class="material-symbols-outlined text-yellow-400 text-sm fill-current">star</span>
+                <span class="material-symbols-outlined text-yellow-400 text-sm">star_half</span>
+                <span class="text-xs text-slate-400 ml-1">(128)</span>
+            </div>
+
+            <div class="mt-auto flex items-center justify-between gap-4">
+                <div class="flex flex-col">
+                    <span class="text-xs text-slate-400 line-through">${{ variant.mrp }}</span>
+                    <p class="text-xl font-black text-primary">${{ variant.selling_price }}</p>
+                </div>
+
+                <button type="button" class="relative z-20 bg-primary text-white p-2.5 rounded-lg flex items-center justify-center hover:bg-slate-800 transition-colors">
+                    <span class="material-symbols-outlined">add_shopping_cart</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-full py-20 text-center">
+        <p class="text-slate-500 italic">No variants found for this category.</p>
+    </div>
+    {% endfor %}
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex justify-center items-center gap-2">
+<button class="w-10 h-10 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-white">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-primary text-white font-bold">1</button>
+<button class="w-10 h-10 rounded-lg hover:bg-white text-slate-600 font-medium">2</button>
+<button class="w-10 h-10 rounded-lg hover:bg-white text-slate-600 font-medium">3</button>
+<span class="px-2">...</span>
+<button class="w-10 h-10 rounded-lg hover:bg-white text-slate-600 font-medium">12</button>
+<button class="w-10 h-10 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-white">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer Footer -->
+<footer class="mt-auto bg-slate-900 text-slate-400 px-6 md:px-20 py-12">
+<div class="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 text-white">
+<span class="material-symbols-outlined text-2xl">shopping_bag</span>
+<h2 class="text-lg font-black tracking-tight uppercase">ShoppyO</h2>
+</div>
+<p class="text-sm leading-relaxed">The ultimate destination for premium tech and gadgets. Quality guaranteed on every purchase.</p>
+</div>
+<div>
+<h3 class="text-white font-bold mb-4">Shop</h3>
+<ul class="text-sm flex flex-col gap-2">
+<li><a class="hover:text-white" href="#">Smartphones</a></li>
+<li><a class="hover:text-white" href="#">Laptops</a></li>
+<li><a class="hover:text-white" href="#">Accessories</a></li>
+<li><a class="hover:text-white" href="#">Wearables</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-white font-bold mb-4">Support</h3>
+<ul class="text-sm flex flex-col gap-2">
+<li><a class="hover:text-white" href="#">Help Center</a></li>
+<li><a class="hover:text-white" href="#">Track Order</a></li>
+<li><a class="hover:text-white" href="#">Shipping Policy</a></li>
+<li><a class="hover:text-white" href="#">Returns</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-white font-bold mb-4">Newsletter</h3>
+<p class="text-xs mb-4">Stay updated with the latest releases and exclusive offers.</p>
+<div class="flex gap-2">
+<input class="bg-white/10 border-none rounded-lg px-4 py-2 text-sm flex-1 focus:ring-1 focus:ring-ice-blue" placeholder="Your email" type="email"/>
+<button class="bg-ice-blue text-primary px-4 py-2 rounded-lg font-bold text-xs uppercase">Join</button>
+</div>
+</div>
+</div>
+<div class="max-w-[1400px] mx-auto mt-12 pt-8 border-t border-slate-800 text-xs text-center">
+                © 2026 ShoppyO E-commerce. All rights reserved.
+            </div>
+</footer>
+</div>
+</body></html>

@@ -69,7 +69,7 @@
 </div>
 <!-- Right Nav -->
 <nav class="flex items-center gap-6">
-<a class="hidden lg:block text-sm font-medium hover:text-ice-blue transition-colors" href="#">Shop</a>
+<a class="hidden lg:block text-sm font-medium hover:text-ice-blue transition-colors" href="{% url 'customer_home' %}">Shop</a>
 <a class="hidden lg:block text-sm font-medium hover:text-ice-blue transition-colors" href="#">Orders</a>
 <button class="flex items-center gap-1 hover:text-ice-blue transition-colors">
 <span class="material-symbols-outlined">shopping_cart</span>
@@ -86,10 +86,10 @@
 <!-- Breadcrumbs -->
 <nav class="flex mb-6 text-sm font-medium text-gray-500">
 <ol class="flex items-center space-x-2">
-<li><a class="hover:text-primary transition-colors" href="#">Home</a></li>
+<li><a class="hover:text-primary transition-colors" href="{% url 'customer_home' %}">Home</a></li>
 <li class="flex items-center gap-2">
 <span class="material-symbols-outlined text-base">chevron_right</span>
-<a class="hover:text-primary transition-colors" href="#">User Profile</a>
+<a class="hover:text-primary transition-colors" href="{% url 'customer_dashboard' %}">User Profile</a>
 </li>
 <li class="flex items-center gap-2">
 <span class="material-symbols-outlined text-base text-primary">chevron_right</span>
@@ -103,87 +103,68 @@
 <h1 class="text-3xl font-black text-charcoal tracking-tight font-display uppercase">My Addresses</h1>
 <p class="text-gray-500 text-base max-w-xl">Manage your saved shipping and billing addresses for a faster checkout experience across ShoppyO.</p>
 </div>
-<button class="flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-primary/90 hover:-translate-y-0.5 transition-all duration-200 group">
+<a href="{% url 'customer_address_add' %}" class="flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-primary/90 hover:-translate-y-0.5 transition-all duration-200 group">
 <span class="material-symbols-outlined text-xl group-hover:rotate-90 transition-transform">add</span>
                 Add New Address
-            </button>
+            </a>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-<!-- Default Address Card -->
-<div class="bg-white rounded-xl shadow-sm border-2 border-primary overflow-hidden hover:shadow-md transition-shadow relative">
-<div class="p-6">
-<div class="flex justify-between items-start mb-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary text-white uppercase tracking-wider">
-                            Default
-                        </span>
-<div class="flex gap-1 text-gray-400">
-<button class="p-1.5 hover:text-primary transition-colors hover:bg-ice-blue rounded-md">
-<span class="material-symbols-outlined text-xl">edit</span>
-</button>
-<button class="p-1.5 hover:text-red-500 transition-colors hover:bg-red-50 rounded-md">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-</div>
-</div>
-<div class="space-y-1">
-<h3 class="text-lg font-bold text-charcoal">John Doe</h3>
-<p class="text-gray-600 leading-relaxed">
-                            123 Maple St, Apt 4B<br/>
-                            Springfield, IL 62704<br/>
-                            United States
-                        </p>
-<div class="pt-4 flex items-center gap-2 text-sm font-medium text-gray-500">
-<span class="material-symbols-outlined text-base">call</span>
-                            +1 (555) 012-3456
-                        </div>
-</div>
-</div>
-<div class="bg-ice-blue/30 px-6 py-3 flex items-center justify-between border-t border-ice-blue">
-<span class="text-xs font-bold text-primary uppercase tracking-widest">Shipping &amp; Billing</span>
-<span class="material-symbols-outlined text-primary text-xl">verified</span>
-</div>
-</div>
-<!-- Address Card 2 -->
-<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md hover:border-ice-blue transition-all group">
-<div class="p-6">
-<div class="flex justify-between items-start mb-4">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-600 uppercase tracking-wider">
-                            Work
-                        </span>
-<div class="flex gap-1 text-gray-400 group-hover:text-charcoal transition-colors">
-<button class="p-1.5 hover:text-primary transition-colors hover:bg-ice-blue rounded-md">
-<span class="material-symbols-outlined text-xl">edit</span>
-</button>
-<button class="p-1.5 hover:text-red-500 transition-colors hover:bg-red-50 rounded-md">
-<span class="material-symbols-outlined text-xl">delete</span>
-</button>
-</div>
-</div>
-<div class="space-y-1">
-<h3 class="text-lg font-bold text-charcoal">Jane Doe</h3>
-<p class="text-gray-600 leading-relaxed">
-                            456 Oak Avenue<br/>
-                            Metropolis, NY 10001<br/>
-                            United States
-                        </p>
-<div class="pt-4 flex items-center gap-2 text-sm font-medium text-gray-500">
-<span class="material-symbols-outlined text-base">call</span>
-                            +1 (555) 987-6543
-                        </div>
-</div>
-</div>
-<div class="px-6 py-3 border-t border-gray-50">
-<button class="text-xs font-bold text-gray-400 hover:text-primary transition-colors uppercase tracking-widest">Set as default</button>
-</div>
-</div>
-<!-- Add New Card Skeleton -->
-<div class="bg-ice-blue/20 rounded-xl border-2 border-dashed border-ice-blue flex flex-col items-center justify-center p-8 hover:bg-ice-blue/40 transition-all cursor-pointer group h-full min-h-[220px]">
-<div class="size-12 rounded-full bg-white flex items-center justify-center text-primary shadow-sm mb-4 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-3xl">add_location_alt</span>
-</div>
-<span class="text-primary font-bold text-lg">Add New Address</span>
-<p class="text-gray-500 text-sm text-center mt-2">Create a new delivery point for your orders</p>
-</div>
+    {% for addr in address %}
+    <div class="relative bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group">
+        <!-- {% if addr.is_default %}
+        <div class="absolute top-2 right-2 text-primary">
+            <span class="material-symbols-outlined text-xl">check_circle</span>
+        </div>
+        {% endif %} -->
+        <div class="p-6">
+            <div class="flex justify-between items-start mb-4">
+                {% if addr.is_default %}
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary text-white uppercase tracking-wider">
+                    <span class="material-symbols-outlined text-sm mr-1">check</span>Default
+                </span>
+                {% else %}
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-600 uppercase tracking-wider">{{ addr.address_type }}</span>
+                {% endif %}
+                <div class="flex gap-1 text-gray-400 group-hover:text-charcoal transition-colors">
+                    <a href="{% url 'customer_address_update' addr.id %}" class="p-1.5 hover:text-primary transition-colors hover:bg-ice-blue rounded-md">
+                        <span class="material-symbols-outlined text-xl">edit</span>
+                    </a>
+                    <form method="post" action="#" style="display:inline">{% csrf_token %}
+                        <button type="submit" class="p-1.5 hover:text-red-500 transition-colors hover:bg-red-50 rounded-md">
+                            <span class="material-symbols-outlined text-xl">delete</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="space-y-1">
+                <h3 class="text-lg font-bold text-charcoal">{{ addr.full_name }}</h3>
+                <p class="text-gray-600 leading-relaxed">{{ addr.house_info }}<br/>{{ addr.locality }}, {{ addr.city }} {{ addr.pincode }}<br/>{{ addr.country }}</p>
+                <div class="pt-4 flex items-center gap-2 text-sm font-medium text-gray-500">
+                    <span class="material-symbols-outlined text-base">call</span>
+                    {{ addr.phone_number }}
+                </div>
+            </div>
+        </div>
+        <div class="px-6 py-3 border-t border-gray-50">
+            {% if not addr.is_default %}
+            <form method="post" action="{% url 'customer_address_set_default' addr.id %}">{% csrf_token %}
+                <button class="text-xs font-bold text-gray-400 hover:text-primary transition-colors uppercase tracking-widest" type="submit">Set as default</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-3 bg-white rounded-xl p-6 text-center text-gray-500">No saved addresses yet.</div>
+    {% endfor %}
+
+    <!-- Add New Card Skeleton -->
+    <a href="{% url 'customer_address_add' %}" class="bg-ice-blue/20 rounded-xl border-2 border-dashed border-ice-blue flex flex-col items-center justify-center p-8 hover:bg-ice-blue/40 transition-all cursor-pointer group h-full min-h-[220px]">
+        <div class="size-12 rounded-full bg-white flex items-center justify-center text-primary shadow-sm mb-4 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-3xl">add_location_alt</span>
+        </div>
+        <span class="text-primary font-bold text-lg">Add New Address</span>
+        <p class="text-gray-500 text-sm text-center mt-2">Create a new delivery point for your orders</p>
+    </a>
 </div>
 <!-- Additional Info / Help Section -->
 <div class="mt-16 bg-white rounded-2xl p-8 border border-ice-blue shadow-sm flex flex-col md:flex-row items-center gap-8">

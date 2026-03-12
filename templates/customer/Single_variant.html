@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ShoppyO - Premium Product Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1a2d37",
+                        "background-light": "#f6f7f7",
+                        "background-dark": "#151a1d",
+                        "ice-blue": "#D6E8EE",
+                        "mist-white": "#F5F9FA",
+                        "charcoal": "#333333",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Work Sans', sans-serif;
+            color: #333333;
+        }
+        .bg-gradient-body {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F0F7F9 100%);
+        }
+    </style>
+</head>
+<body class="bg-gradient-body min-h-screen">
+<!-- Navbar -->
+<header class="bg-primary text-white px-6 md:px-20 py-4 sticky top-0 z-50 shadow-md">
+<div class="max-w-[1400px] mx-auto flex items-center justify-between gap-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl">shopping_bag</span>
+<h1 class="text-2xl font-black tracking-tight">ShoppyO</h1>
+</div>
+<div class="hidden lg:flex items-center gap-8 flex-1 justify-center">
+<a class="text-sm font-medium hover:text-ice-blue transition-colors" href="#">Electronics</a>
+<a class="text-sm font-medium hover:text-ice-blue transition-colors" href="#">Home &amp; Garden</a>
+<a class="text-sm font-medium hover:text-ice-blue transition-colors" href="#">Fashion</a>
+<a class="text-sm font-medium hover:text-ice-blue transition-colors" href="#">Beauty</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary/60">search</span>
+<input class="bg-mist-white text-primary pl-10 pr-4 py-2 rounded-lg border-none focus:ring-2 focus:ring-ice-blue w-64 text-sm" placeholder="Search products..." type="text"/>
+</div>
+<div class="flex gap-4">
+<button class="hover:text-ice-blue"><span class="material-symbols-outlined">person</span></button>
+<button class="hover:text-ice-blue relative">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute -top-2 -right-2 bg-red-500 text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1200px] mx-auto px-4 py-8">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-sm mb-6 text-charcoal/70">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Electronics</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Audio</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-primary font-semibold">Pro Wireless Headphones</span>
+</nav>
+<!-- Main Product Card -->
+<div class="bg-white rounded-lg shadow-xl shadow-primary/5 overflow-hidden flex flex-col md:grid md:grid-cols-2 gap-0">
+<!-- Product Gallery -->
+<div class="p-8 bg-white flex flex-col gap-4 border-r border-slate-50">
+
+<!-- Main Image -->
+<div class="relative aspect-square rounded-lg bg-mist-white overflow-hidden flex items-center justify-center">
+
+{% for img in image %}
+    {% if img.is_primary %}
+        <img id="main-display-image"
+             class="w-full h-full object-cover"
+             src="{{ img.image_url }}"
+             alt="{{ items.product.name }}">
+    {% endif %}
+{% endfor %}
+
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+
+</div>
+
+
+<!-- Thumbnail Images -->
+<div class="grid grid-cols-4 gap-3">
+
+{% for img in image %}
+<div class="aspect-square rounded-lg border-2 
+{% if img.is_primary %}border-primary{% else %}border-transparent{% endif %}
+hover:border-ice-blue bg-mist-white overflow-hidden cursor-pointer transition-all thumbnail-item">
+
+<img class="w-full h-full object-cover"
+     src="{{ img.image_url }}"
+     onclick="updateMainImage(this.src,this)">
+
+</div>
+{% endfor %}
+
+</div>
+
+</div>
+<!-- <div class="p-8 bg-white flex flex-col gap-4 border-r border-slate-50">
+<div class="relative aspect-square rounded-lg bg-mist-white overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="High-end black wireless noise-cancelling headphones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBmfZs1hEhbDbWgsIr6HUcDCzOA0lguSN21XxBToqFpo9hb5YVCLm2JezzvcATc6MoASiezNiU9yNtmUouG9o3bD4am52WVBsTVmC7v39ouVNx71xHUyMBjaNF2za__EGXJnbY96nJ3h_XO5aff7TqcF7EiMosVwCOVNqVFX2p3SuwXEs_sruH4TlDQSCnviCogsQHOTiGgYJyAQkli-8DXg1GJUHNPAOcgvDLLeqROj1rPa2oiWkIY5p_yn6LQJCwH-p74o9Si5Su"/>
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-sm hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined fill-0 hover:fill-1">favorite</span>
+</button>
+</div>
+<div class="grid grid-cols-4 gap-3">
+<div class="aspect-square rounded-lg border-2 border-primary bg-mist-white overflow-hidden cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="Main view of professional headphones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhFpwgCtKCAisFoKupXINgPWlTJFJh3tx6kH1E9bI1eaS0iwR8MlM8xAxWr5HKg5mOjqK0dqqW3xan7ff1xAeXRR6Dl2WdbvvobCYiCkUYwoJMqueDSibbv7Jx2nFaorW1p68v14Hf4ONsAaQ3qJGYjwotK7fphmYSjdrr_8ep-4EWmuVBvu6ftmqe7WkKLaSFd2c15Spr2lwN8WYPRt9ctJwmUmTckz-hywuLnd5uKiwXX7SVdwfK4hOMOxB7Np7O3OWZRddW7lAt"/>
+</div>
+</div>
+</div> -->
+<!-- Product Actions -->
+<div class="p-8 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-ice-blue text-primary text-[10px] font-bold rounded uppercase tracking-wider">Top Rated</span>
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star_half</span>
+</div>
+<span class="text-xs text-charcoal/60">(1,240 Reviews)</span>
+</div>
+<h2 class="text-3xl font-bold text-primary mb-2">{{items.product.name}}</h2>
+<div class="flex items-baseline gap-2">
+    <p class="text-2xl font-black text-primary mb-2">₹{{items.selling_price }}</p>
+    <span class="text-[13px] text-slate-500 line-through">₹{{items.mrp }}</span>
+</div>
+<p class="text-[9px] uppercase tracking-wider text-slate-400 font-bold mb-0.5">{{items.product.brand }}</p>
+<p class="text-charcoal leading-relaxed mb-4">{{items.product.description}}</p>
+<!-- Configurations -->
+<div class="space-y-6 mb-10">
+<div>
+<span class="text-sm font-bold text-primary uppercase tracking-tight block mb-3">Color: Midnight Black</span>
+<div class="flex gap-3">
+<button class="size-8 rounded-full bg-primary border-4 border-ice-blue ring-1 ring-primary"></button>
+<button class="size-8 rounded-full bg-slate-400 border-4 border-white ring-1 ring-slate-200"></button>
+<button class="size-8 rounded-full bg-mist-white border-4 border-white ring-1 ring-slate-200"></button>
+</div>
+</div>
+<div>
+<span class="text-sm font-bold text-primary uppercase tracking-tight block mb-3">Choose Version</span>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 rounded-lg border-2 border-primary bg-primary/5 text-primary text-sm font-bold">Standard Edition</button>
+<button class="px-4 py-2 rounded-lg border-2 border-slate-100 hover:border-ice-blue text-charcoal text-sm font-medium transition-colors">Executive Pack</button>
+<button class="px-4 py-2 rounded-lg border-2 border-slate-100 hover:border-ice-blue text-charcoal text-sm font-medium transition-colors">Travel Bundle</button>
+</div>
+</div>
+</div>
+</div>
+<!-- CTA Section -->
+<div class="flex flex-col gap-3">
+<a href="{% url 'add_to_cart' items.id %}" class="w-full bg-primary text-white py-4 rounded-lg font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">shopping_cart</span>
+                        Add to Cart
+</a>
+<a href="{% url 'order' items.id %}"
+class="w-full bg-white border-2 border-primary text-primary py-4 rounded-lg font-bold hover:bg-primary/5 transition-colors">
+Buy Now
+</a>
+<div class="flex items-center justify-center gap-6 mt-4 text-[10px] text-charcoal/60 font-medium uppercase tracking-widest">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">local_shipping</span> Free Shipping</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">verified_user</span> 2-Year Warranty</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">cached</span> 30-Day Returns</div>
+</div>
+</div>
+</div>
+
+</div>
+<!-- Specifications Sections -->
+<div class="mt-12 grid md:grid-cols-2 gap-8">
+<div class="bg-white p-8 rounded-lg shadow-sm border border-slate-100">
+<h3 class="text-xl font-bold text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">settings</span>
+                    Technical Specifications
+                </h3>
+<div class="space-y-4">
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-charcoal/60 text-sm">Driver Size</span>
+<span class="text-charcoal font-medium text-sm">40mm Dynamic</span>
+</div>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-charcoal/60 text-sm">Frequency Response</span>
+<span class="text-charcoal font-medium text-sm">10Hz - 40kHz</span>
+</div>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-charcoal/60 text-sm">Connectivity</span>
+<span class="text-charcoal font-medium text-sm">Bluetooth 5.2 / 3.5mm</span>
+</div>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-charcoal/60 text-sm">Battery Life</span>
+<span class="text-charcoal font-medium text-sm">Up to 40 Hours (ANC On)</span>
+</div>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-charcoal/60 text-sm">Weight</span>
+<span class="text-charcoal font-medium text-sm">250g</span>
+</div>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-charcoal/60 text-sm">Microphone</span>
+<span class="text-charcoal font-medium text-sm">Quad-Mic Array</span>
+</div>
+</div>
+</div>
+<div class="bg-white p-8 rounded-lg shadow-sm border border-slate-100">
+<h3 class="text-xl font-bold text-primary mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined">inventory_2</span>
+                    What's in the Box
+                </h3>
+<ul class="space-y-4">
+<li class="flex items-center gap-4 text-charcoal">
+<span class="size-8 rounded bg-mist-white flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">headphones</span>
+</span>
+                        Pro Wireless Headphones
+                    </li>
+<li class="flex items-center gap-4 text-charcoal">
+<span class="size-8 rounded bg-mist-white flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">cases</span>
+</span>
+                        Premium Hardshell Carry Case
+                    </li>
+<li class="flex items-center gap-4 text-charcoal">
+<span class="size-8 rounded bg-mist-white flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">usb</span>
+</span>
+                        USB-C Charging Cable (1.2m)
+                    </li>
+<li class="flex items-center gap-4 text-charcoal">
+<span class="size-8 rounded bg-mist-white flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">cable</span>
+</span>
+                        3.5mm Audio Cable
+                    </li>
+<li class="flex items-center gap-4 text-charcoal">
+<span class="size-8 rounded bg-mist-white flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">flight_takeoff</span>
+</span>
+                        Flight Adapter
+                    </li>
+</ul>
+</div>
+</div>
+<!-- Cross-selling Section -->
+<div class="mt-16">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-2xl font-bold text-primary">You May Also Like</h3>
+<div class="flex gap-2">
+<button class="size-10 rounded-full border border-primary/10 bg-white flex items-center justify-center hover:bg-ice-blue transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+</button>
+<button class="size-10 rounded-full border border-primary/10 bg-white flex items-center justify-center hover:bg-ice-blue transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Product Card 1 -->
+<div class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+<div class="aspect-square bg-mist-white rounded-lg mb-4 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Over-ear silver wireless headphones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBLCByWoKVyUW3GuNnxiI4XpyHVYcKvm_bAJusOjxI_jida5tuZY1SoUqZ5U9hzYpu28RM2RJtgLHJ_JpBgepgpdwslRwGezPzhlBpvAmXg9rH39LrsLMPCPEZcP4rRjnplymXnM-scXjvQShYKYEejcNXwceuIjklmxNXhS9XnKjFVbXSMk6yHMPbjZywQf--W-mzhsxLwTyUQw2pDXoUx8lkrwu6YAuGBrJNtPftWAP5rP5Sr59GNmxkuqHDq3uT6iZY-Ry46-GR"/>
+</div>
+<h4 class="font-bold text-primary truncate">Aria S1 Headphones</h4>
+<p class="text-sm text-charcoal/60 mb-2">Essential Audio</p>
+<div class="flex items-center justify-between">
+<span class="font-bold text-primary">$189.00</span>
+<button class="text-primary hover:text-charcoal"><span class="material-symbols-outlined">add_circle</span></button>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+<div class="aspect-square bg-mist-white rounded-lg mb-4 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="High-fidelity desktop speakers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA12c6G3iu2q6FKFvvEVIcb6nTBBMR16ITZujeXh0osvmjuWfQcy6Q20BbdcBOOibgy1mIQsIGc5kKkDW6O_tl90PrkTzduX8wBVVbRzHCbv-hzIJ07hc49DpH5MuHLK1KDcyjCF7MahSkhecEZtLal71P5onE8cvd3KXZ36F96WumWKj9yuEqiwr1joinkK6xIrDaMYQWWdH6Z9JpTXQVytvUrWKsmrM8sNnDcINMXhQ90sbVFraNlBPmiZngcZvrXSALtpPoHNrjt"/>
+</div>
+<h4 class="font-bold text-primary truncate">Studio Pro Speakers</h4>
+<p class="text-sm text-charcoal/60 mb-2">Home Studio</p>
+<div class="flex items-center justify-between">
+<span class="font-bold text-primary">$499.00</span>
+<button class="text-primary hover:text-charcoal"><span class="material-symbols-outlined">add_circle</span></button>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+<div class="aspect-square bg-mist-white rounded-lg mb-4 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Wireless earbuds with charging case" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2o2FjwMmb4xT0OAPfsb4OcGcK-fapWMwtzLRhhOogyV5ldkEJ2F6LfLjzZn3FDMU1vzQHsZnZIDMuD82pXKvVrt4IAR7YBIaIkqwAG1ET69plNeSznxdjowIh7AwvmPTBGYk8UZXtItYepiP2QsXsFx0G5Fnkg6PEd8q2OjGUx5SxpgdhWiIc7iuEE6vKHdSOyQDGps3sKdF-S9l_ElrW5hyKXEVfcYvm_XfX9HHZbVEgGQ9Rx1Z_OrcYRptxjwVzuLTTG8zlyjzt"/>
+</div>
+<h4 class="font-bold text-primary truncate">Mini Buds ANC</h4>
+<p class="text-sm text-charcoal/60 mb-2">Truly Wireless</p>
+<div class="flex items-center justify-between">
+<span class="font-bold text-primary">$129.00</span>
+<button class="text-primary hover:text-charcoal"><span class="material-symbols-outlined">add_circle</span></button>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+<div class="aspect-square bg-mist-white rounded-lg mb-4 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Minimalist headset stand" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATKQJa2UVrWs5rpSgKs1xjKC84hYsait6j89wTOmoIiUdMvs8JR1ZG6d9wCp87lmDnC7D9O9S_IXGrUNp1_agfq6i9xxotwRH5G8JB40wBKmK1PM0Q1eFCk9anoHuUf9SmgFJoB1gD0RJgVygATE-DYr7DP7TzIFgwawEy2Qh6VqAVMr98ifNY5HFurPw1tpV68Nc-z2SjjOvuBexTVPbKITQFv62RzZ_jyUpWUfyB2lumL-XUh6eprNbKGmKo4H9W1MsgBnS7De5K"/>
+</div>
+<h4 class="font-bold text-primary truncate">Aluminum Headset Stand</h4>
+<p class="text-sm text-charcoal/60 mb-2">Accessories</p>
+<div class="flex items-center justify-between">
+<span class="font-bold text-primary">$45.00</span>
+<button class="text-primary hover:text-charcoal"><span class="material-symbols-outlined">add_circle</span></button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-primary text-white mt-20 py-16 px-6 md:px-20 border-t border-white/5">
+<div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+<div>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-3xl">shopping_bag</span>
+<h2 class="text-2xl font-black tracking-tight">ShoppyO</h2>
+</div>
+<p class="text-charcoal/40 text-sm leading-relaxed mb-6">
+                    Premium audio equipment and tech accessories for the modern professional. Quality and style, delivered worldwide.
+                </p>
+<div class="flex gap-4">
+<a class="size-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-ice-blue hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+<a class="size-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-ice-blue hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-xl">mail</span>
+</a>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-lg mb-6">Shop</h4>
+<ul class="space-y-4 text-sm text-white/60">
+<li><a class="hover:text-white transition-colors" href="#">Audio &amp; Headphones</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Smart Devices</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Lifestyle Gear</a></li>
+<li><a class="hover:text-white transition-colors" href="#">New Arrivals</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-lg mb-6">Support</h4>
+<ul class="space-y-4 text-sm text-white/60">
+<li><a class="hover:text-white transition-colors" href="#">Track Your Order</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Shipping Policy</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Returns &amp; Refunds</a></li>
+<li><a class="hover:text-white transition-colors" href="#">FAQ</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-lg mb-6">Join the Insider</h4>
+<p class="text-sm text-white/60 mb-4">Subscribe for early access and exclusive deals.</p>
+<div class="flex">
+<input class="bg-white/5 border-none rounded-l-lg py-2 px-4 focus:ring-1 focus:ring-ice-blue flex-1 text-sm" placeholder="Your email" type="email"/>
+<button class="bg-ice-blue text-primary px-4 py-2 rounded-r-lg font-bold text-sm hover:bg-white transition-colors">
+                        Join
+                    </button>
+</div>
+</div>
+</div>
+<div class="max-w-[1400px] mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/40">
+<p>© 2024 ShoppyO Premium E-commerce. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="hover:text-white" href="#">Privacy Policy</a>
+<a class="hover:text-white" href="#">Terms of Service</a>
+<a class="hover:text-white" href="#">Cookie Settings</a>
+</div>
+</div>
+</footer>
+</body>
+<script>
+function updateMainImage(src, element) {
+    // 1. Swap the main image source
+    document.getElementById('main-display-image').src = src;
+    
+    // 2. Remove primary border from all thumbnails
+    document.querySelectorAll('.thumbnail-item').forEach(div => {
+        div.classList.remove('border-primary');
+        div.classList.add('border-transparent');
+    });
+    
+    // 3. Add primary border to the clicked one
+    element.parentElement.classList.remove('border-transparent');
+    element.parentElement.classList.add('border-primary');
+}
+</script></html>

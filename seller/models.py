@@ -36,12 +36,19 @@ class ProductVariant(models.Model):
     selling_price = models.DecimalField(max_digits=10, decimal_places=2)
     cost_price = models.DecimalField(max_digits=10, decimal_places=2)
     stock_quantity = models.IntegerField()
-    weight = models.FloatField(help_text="Weight in kg")
-    length = models.FloatField(help_text="Length in cm")
-    width = models.FloatField(help_text="Width in cm")
-    height = models.FloatField(help_text="Height in cm")
-    tax_percentage = models.FloatField()
+    weight = models.FloatField(help_text="Weight in kg",null=True,blank=True)
+    length = models.FloatField(help_text="Length in cm",null=True,blank=True)
+    width = models.FloatField(help_text="Width in cm",null=True,blank=True)
+    height = models.FloatField(help_text="Height in cm",null=True,blank=True)
+    tax_percentage = models.FloatField(null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def discount_percentage(self):
+        if self.mrp > self.selling_price:
+            discount = ((self.mrp - self.selling_price) / self.mrp) * 100
+            return int(discount) # Returns a whole number like 20
+        return 0
 
 class ProductImage(models.Model):
     variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE, related_name="images")

@@ -12,8 +12,8 @@ from core.decorator import seller_required
 def Seller_Register(request):
     if request.method=="POST":
         first_name=request.POST.get("first_name")
-        last_name=request.POST.get("list_name")
-        email=request.POST.get("email")
+        last_name=request.POST.get("last_name")
+        email=request.POST.get("email").strip().lower()
         password=request.POST.get("password")
         confirm_password=request.POST.get("confirm_password")
 
@@ -28,12 +28,13 @@ def Seller_Register(request):
         user=User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
-            email=email.strip().lower(),
+            username=email.strip().lower(),
+            email=email,
             password=password,
             role="SELLER"
             )
         messages.success(request, "Seller account Created Successfully")
-        return redirect("/")
+        return redirect("login")
     return render(request, "seller/Seller_Register.html")
 
 @seller_required

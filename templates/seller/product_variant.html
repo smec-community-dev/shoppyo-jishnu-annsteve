@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ShoppyO | {{ product.brand }} {{ product.model_number }}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1A2D37",
+                        "creamy-bg": "#FDFBF7",
+                        "creamy-info": "#FCFAF7",
+                        "border-soft": "#F1EDE7",
+                    },
+                    fontFamily: { "sans": ["Work Sans", "sans-serif"] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+        .fill-gold { font-variation-settings: 'FILL' 1; color: #fbbf24; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+
+<body class="bg-creamy-bg text-primary font-sans">
+
+<main class="max-w-[1400px] mx-auto px-4 lg:px-10 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        
+        <div class="lg:col-span-7 lg:sticky lg:top-24 h-fit">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                <div class="md:col-span-2 order-2 md:order-1 flex md:flex-col gap-3 overflow-x-auto md:overflow-y-auto no-scrollbar max-h-[600px]">
+                    {% for img in variant.images.all %}
+                    <button class="w-20 h-20 flex-shrink-0 bg-white border border-border-soft rounded-xl p-2 hover:border-primary transition-all">
+                        <img src="{{ img.image_url }}" class="w-full h-full object-contain">
+                    </button>
+                    {% endfor %}
+                </div>
+                <div class="md:col-span-10 order-1 md:order-2 bg-white rounded-3xl p-10 border border-border-soft aspect-square flex items-center justify-center">
+                    <img src="{{ variant.images.all.0.image_url }}" class="max-w-full max-h-full object-contain">
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-5 space-y-8">
+            <div>
+                <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">{{ product.brand }}</p>
+                <h1 class="text-3xl font-black text-primary leading-tight mb-2">{{ product.model_number }}</h1>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center text-white bg-emerald-600 px-2 py-0.5 rounded text-xs font-bold gap-1">
+                        4.7 <span class="material-symbols-outlined text-[10px] fill-gold">star</span>
+                    </div>
+                    <span class="text-sm font-bold text-slate-400">9,721 Ratings</span>
+                </div>
+            </div>
+
+            <div class="p-6 bg-creamy-info rounded-2xl border border-border-soft">
+                <div class="flex items-baseline gap-3 mb-1">
+                    <span class="text-4xl font-black text-primary">₹{{ variant.selling_price }}</span>
+                    <span class="text-lg text-slate-400 line-through">₹{{ variant.mrp }}</span>
+                    <span class="text-red-500 font-bold text-sm">{{ variant.discount_percentage }}% Off</span>
+                </div>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Lowest price in last 30 days</p>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="font-black text-xs uppercase tracking-widest text-slate-400">Delivery Details</h3>
+                <div class="bg-white border border-border-soft rounded-2xl p-5 space-y-4">
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-slate-400 text-xl">location_on</span>
+                        <div class="text-sm">
+                            <p class="font-bold">Home <span class="text-slate-400 ml-2 font-medium">Your Address Here...</span></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 py-2 border-t border-slate-50">
+                        <span class="material-symbols-outlined text-slate-700 text-lg">local_shipping</span>
+                        <p class="text-sm text-slate-800">
+                            <span class="italic font-extrabold uppercase text-slate-700">EXPRESS</span> 
+                            <span class="font-bold ml-1">Delivery by Tomorrow</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="font-black text-xs uppercase tracking-widest text-slate-400">Product Highlights</h3>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-border-soft">
+                        <span class="material-symbols-outlined text-primary">memory</span>
+                        <p class="text-sm font-medium">A19 Chip, 6 Core Processor | Hexa Core</p>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-border-soft">
+                        <span class="material-symbols-outlined text-primary">photo_camera</span>
+                        <p class="text-sm font-medium">48MP + 48MP Rear Camera | 16MP Front</p>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-border-soft">
+                        <span class="material-symbols-outlined text-primary">smartphone</span>
+                        <p class="text-sm font-medium">6.3 Inch All Screen OLED Display</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-border-soft lg:static lg:p-0 lg:bg-transparent lg:border-0 z-50">
+                <div class="flex gap-4 max-w-[1400px] mx-auto">
+                    <button class="flex-1 py-4 border-2 border-primary text-primary rounded-xl font-bold uppercase tracking-widest hover:bg-ice-blue transition-all">
+                        Add to Cart
+                    </button>
+                    <button class="flex-1 py-4 bg-primary text-white rounded-xl font-bold uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg shadow-primary/20">
+                        Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

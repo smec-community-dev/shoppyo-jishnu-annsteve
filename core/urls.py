@@ -4,10 +4,9 @@ from core import views
 
 urlpatterns = [
     path("register/",views.Customer_Register,name="Customer_Register"),
-    path("",views.Login,name="login"),
-    path("Customer_Logout/", views.Customer_Logout, name="customer_logout"),
+    path("",views.Login_view,name="login"),
     path("Customer_Home/",views.Customer_Home,name="customer_home"),
-    path("customer_dashboard/", views.Customer_Dashboard, name="customer_dashboard"),
-    path("customer_update/", views.Customer_Update, name="customer_update"),
-    path("customer_address/", views.Customer_Address, name="customer_address"),
+    path("Category/",views.category,name="category"),
+    path('sub_category/<slug:slug>/',views.sub_category,name='subcategory_list'),
+    path('subcategory_product/<slug:slug>/',views.subcategory_product,name='subcategory_product'),
 ]

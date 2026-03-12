@@ -1,6 +1,6 @@
-from django.shortcuts import render,redirect
-from .models import User, Address
-from seller.models import SellerProfile,Product
+from django.shortcuts import render,redirect,get_object_or_404
+from .models import *
+from seller.models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -18,15 +18,16 @@ def Customer_Register(request):
 
         if password!=confirm_password:
             messages.error(request, "Passwords do not Match")
-            return render(request,"customer/Custm_Register.html")
+            return redirect("Customer_Register")
+
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email already Exists")
-            return render(request,"customer/Custm_Register.html")
+            return redirect("Customer_Register")
         
-        user=User.objects.create_user(
+        User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
-            username=email,
+            username=email.strip().lower(),
             email=email,
             password=password,
             )
@@ -35,7 +36,7 @@ def Customer_Register(request):
     return render(request,"customer/Custm_Register.html")
 
 
-def Login(request):
+def Login_view(request):
     if request.method=="POST":
         email=request.POST.get("email").strip().lower()
         password=request.POST.get("password")
@@ -44,7 +45,7 @@ def Login(request):
 
         if user is not None:
             login(request,user)
-            messages.success(request,'Login Successfully')
+            # messages.success(request,'Login Successfully')
 
             if user.role == "CUSTOMER":
                 return redirect("customer_home")
@@ -55,54 +56,44 @@ def Login(request):
         else:
             messages.error(request,"Invalid Email or Password")
             return render(request,"customer/login.html")
-    return render(request,"customer/login.html")
+    return render(request,"core/login.html")
 
 @login_required
 def Customer_Home(request):
     user=request.user
-    return render(request,"customer/customer_home.html", {"profile_user":user})
+    product=Product.objects.filter(is_active=True)
+    category=Category.objects.filter(is_active=True)
+    return render(request,"customer/customer_home.html", {"profile_user":user,"products":product,"categories":category})
 
 
 @login_required
-def Customer_Dashboard(request):
-    user = request.user
-    # # try to get user's default address, fall back to first address or None
-    # default_address = Address.objects.filter(user=user, is_default=True).first()
-    # if not default_address:
-    #     default_address = Address.objects.filter(user=user).first()
-    return render(request, "customer/customer_dashboard.html", {"profile_user": user})
-
+def category(request):
+    category=Category.objects.all()
+    return render(request,'core/category.html',{'category':category})
 
 @login_required
-def Customer_Update(request):
-    user=request.user
-
-    if request.method=="POST":
-        user.first_name=request.POST.get("first_name")
-        user.last_name=request.POST.get("last_name")
-        user.phone_number=request.POST.get("phone_number")
-        new_email = request.POST.get("email")
-
-        if request.FILES.get("profile_image"):
-            user.profile_image = request.FILES.get("profile_image")
-
-        if User.objects.filter(email=new_email).exclude(id=user.id).exists():
-            messages.error(request, "Email already exists!")
-            return redirect("customer_update")
-        else:
-            user.email = new_email   # update current user's email
-
-        user.save()
-        messages.success(request, "Profile updated successfully")
-        return redirect("customer_dashboard")
-    return render(request, "customer/customer_update.html", {"profile_user": user})
+def sub_category(request,slug):
+    category=get_object_or_404(Category,slug=slug)
+    sub_category=SubCategory.objects.filter(category=category)
+    all_category=Category.objects.all()
+    return render(request,'core/sub_category.html',{'sub_category':sub_category,'all_category':all_category})
 
 @login_required
-def Customer_Logout(request):
-    logout(request)
-    messages.success(request, "Logged out successfully")
-    return redirect('login')
+def subcategory_product(request,slug):
+    sub_category=get_object_or_404(SubCategory,slug=slug)
+    product=Product.objects.filter(subcategory=sub_category)
+    productvariant=ProductVariant.objects.filter(product__in=product).prefetch_related('images')
 
-@login_required
-def Customer_Address(request):
-    return render(request, "customer/customer_address.html")
+    brand=request.GET.getlist('brand')
+    min_price=request.GET.get('min_price')
+    max_price=request.GET.get('max_price')
+    # rating=request.GET.get('rating')
+
+    if brand:
+        productvariant=productvariant.filter(product__brand__in=brand)
+    if min_price and min_price.strip():
+        productvariant=productvariant.filter(selling_price__gte=min_price)
+    if max_price and max_price.strip():
+        productvariant=productvariant.filter(selling_price__lte=max_price)
+
+    return render(request,'core/subcategory_products.html',{'productvariant':productvariant})

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Order Summary | ShoppyO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1a2d37",
+                        "background-light": "#f6f7f7",
+                        "background-dark": "#151a1d",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Work Sans", sans-serif;
+        }
+        .ice-gradient {
+            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col ice-gradient group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap bg-primary px-10 py-4 shadow-lg">
+<div class="flex items-center gap-4 text-slate-100">
+<div class="size-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">shopping_bag</span>
+</div>
+<h2 class="text-slate-100 text-2xl font-black leading-tight tracking-tight">ShoppyO</h2>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center justify-center rounded-lg h-10 bg-white/10 hover:bg-white/20 text-slate-100 px-3 transition-colors">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 bg-white/10 hover:bg-white/20 text-slate-100 px-3 transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<main class="px-4 md:px-20 lg:px-40 flex flex-1 justify-center py-8">
+    {% if messages %}
+<div class="mb-6 space-y-2">
+
+{% for message in messages %}
+
+<div class="p-4 rounded-lg text-sm font-medium
+{% if message.tags == 'success' %}
+bg-green-100 text-green-800 border border-green-200
+{% elif message.tags == 'error' %}
+bg-red-100 text-red-800 border border-red-200
+{% else %}
+bg-blue-100 text-blue-800 border border-blue-200
+{% endif %}
+">
+
+{{ message }}
+
+</div>
+
+{% endfor %}
+
+</div>
+{% endif %}
+<div class="layout-content-container flex flex-col max-w-[1000px] flex-1">
+<div class="flex flex-wrap gap-2 mb-6">
+<a class="text-slate-500 hover:text-primary text-sm font-medium" href="#">Home</a>
+<span class="text-slate-400 text-sm">/</span>
+<a class="text-slate-500 hover:text-primary text-sm font-medium" href="#">Cart</a>
+<span class="text-slate-400 text-sm">/</span>
+<span class="text-primary text-sm font-bold">Checkout</span>
+</div>
+<div class="mb-8">
+<h1 class="text-slate-900 dark:text-slate-100 text-4xl font-black leading-tight tracking-tight">Review your order</h1>
+<p class="text-slate-500 text-lg mt-2">Almost there! Please verify your order details before final placement.</p>
+</div>
+
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 space-y-6">
+<section class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+                                    Shipping Information
+                                </h2>
+
+{% if default_address %}
+<div class="flex items-start justify-between p-4 bg-background-light dark:bg-slate-700/50 rounded-lg">
+<div class="flex gap-4">
+<div class="text-primary bg-primary/10 flex items-center justify-center rounded-full shrink-0 size-12">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<p class="text-slate-900 dark:text-slate-100 font-bold">{{ default_address.full_name }}</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm mt-1">
+{{ default_address.house_info }}, {{ default_address.locality }}<br/>
+{{ default_address.city }}, {{ default_address.state }} {{ default_address.pincode }}<br/>
+{{ default_address.country }}
+</p>
+<p class="text-slate-500 text-sm mt-1">Phone: {{ default_address.phone_number }}</p>
+</div>
+</div>
+<button onclick="toggleAddressList()" class="text-primary font-semibold text-sm hover:underline">Change</button>
+</div>
+
+<!-- Address Selection Dropdown -->
+<div id="addressList" class="mt-4 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-lg hidden">
+    <h3 class="text-slate-900 dark:text-slate-100 font-bold mb-3">Select Delivery Address</h3>
+    <div class="space-y-3">
+    {% for addr in addresses %}
+        <div class="flex items-start justify-between p-3 bg-white dark:bg-slate-800 rounded-lg border {% if addr.is_default %}border-primary{% else %}border-slate-200{% endif %}">
+            <div>
+                <p class="text-slate-900 dark:text-slate-100 font-semibold">{{ addr.full_name }}</p>
+                <p class="text-slate-600 dark:text-slate-400 text-sm">
+                    {{ addr.house_info }}, {{ addr.locality }}<br/>
+                    {{ addr.city }}, {{ addr.state }} {{ addr.pincode }}
+                </p>
+                <p class="text-slate-500 text-xs mt-1">Phone: {{ addr.phone_number }}</p>
+            </div>
+            <a href="{% url 'order_select_address' addr.id %}?product_id={{ order.product.id }}" 
+               class="text-primary font-semibold text-sm hover:underline">
+                {% if addr.is_default %}Selected{% else %}Select{% endif %}
+            </a>
+        </div>
+    {% endfor %}
+    </div>
+    <a href="{% url 'customer_address_add' %}" class="mt-3 inline-block text-primary font-semibold text-sm hover:underline">+ Add New Address</a>
+</div>
+
+{% else %}
+<!-- No address found - show option to add -->
+<div class="flex items-start justify-between p-4 bg-background-light dark:bg-slate-700/50 rounded-lg">
+<div class="flex gap-4">
+<div class="text-primary bg-primary/10 flex items-center justify-center rounded-full shrink-0 size-12">
+<span class="material-symbols-outlined">add_location</span>
+</div>
+<div>
+<p class="text-slate-900 dark:text-slate-100 font-bold">No address saved</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Please add a delivery address to continue.</p>
+</div>
+</div>
+<a href="{% url 'customer_address_add' %}" class="text-primary font-semibold text-sm hover:underline">Add Address</a>
+</div>
+{% endif %}
+
+<!-- ---------------Delivery Method-------------------------- -->
+<!-- <h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold mt-8 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">delivery_dining</span>
+                                    Delivery Method
+                                </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="border-2 border-primary bg-primary/5 p-4 rounded-lg relative">
+<span class="material-symbols-outlined absolute top-4 right-4 text-primary">check_circle</span>
+<p class="font-bold text-slate-900">Standard Shipping</p>
+<p class="text-sm text-slate-500">3-5 business days</p>
+<p class="mt-2 font-bold text-primary">Free</p>
+</div>
+<div class="border border-slate-200 p-4 rounded-lg hover:border-primary/50 cursor-pointer transition-colors">
+<p class="font-bold text-slate-900">Express Delivery</p>
+<p class="text-sm text-slate-500">Next business day</p>
+<p class="mt-2 font-bold text-slate-700">$15.00</p>
+</div>
+</div> -->
+
+<!-----------------Payment Method---------------------------->
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold mt-8 mb-4 flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary">payments</span>
+    Payment Method
+</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div id="card-COD" class="payment-card border-2 border-primary bg-primary/5 p-4 rounded-lg relative cursor-pointer" onclick="selectPayment('COD')">
+        <span class="material-symbols-outlined absolute top-4 right-4 text-primary" id="tick-COD">check_circle</span>
+        
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-2xl text-primary">payments</span>
+            <div>
+                <p class="font-bold text-slate-900">Cash On Delivery (COD)</p>
+                <p class="text-sm text-slate-500">Pay when you receive</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="card-ONLINE" class="payment-card border border-slate-200 p-4 rounded-lg hover:border-primary/50 cursor-pointer transition-colors relative" onclick="selectPayment('ONLINE')">
+        <span class="material-symbols-outlined absolute top-4 right-4 text-primary hidden" id="tick-ONLINE">check_circle</span>
+        
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-2xl text-slate-500" id="online-icon">credit_card</span>
+            <div>
+                <p class="font-bold text-slate-900">UPI / Card</p>
+                <p class="text-sm text-slate-500">Pay online now</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</section>
+
+<!----------------Product------------------------->
+<section class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">inventory_2</span>
+                                    Order Items
+                                </h2>
+
+{% if is_cart_checkout %}
+{# Cart checkout - show multiple items #}
+{% for item in cart_items %}
+<div class="flex gap-6 py-4 items-center border-b border-slate-100 dark:border-slate-700 last:border-0">
+
+<div class="w-24 h-24 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">
+    {% with item.variant.images.all.0 as img_obj %}
+        {% if img_obj %}
+        <img src="{{ img_obj.image_url }}" class="w-full h-full object-cover">
+        {% else %}
+        <img src="/static/images/no-image.png" class="w-full h-full object-cover">
+        {% endif %}
+    {% endwith %}
+</div>
+
+<div class="flex-1">
+<div class="flex justify-between items-start">
+
+<div>
+<h3 class="text-slate-900 font-bold text-lg">
+{{ item.variant.product.name }}
+</h3>
+
+<p class="text-slate-500 text-sm">
+Brand: {{ item.variant.product.brand }}
+</p>
+
+<p class="text-slate-900 font-medium mt-2">
+Qty: {{ item.quantity }}
+</p>
+</div>
+
+<p class="text-slate-900 font-black text-xl">
+₹{{ item.price_at_time }}
+</p>
+
+</div>
+</div>
+
+</div>
+{% endfor %}
+{% else %}
+{# Single product checkout - original code #}
+<div class="flex gap-6 py-4 items-center">
+
+<div class="w-32 h-32 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">
+    {% if order.images.all %}
+    <img src="{{ order.images.all.0.image_url }}" class="w-full h-full object-cover">
+    {% else %}
+    <img src="/static/images/no-image.png" class="w-full h-full object-cover">
+    {% endif %}
+</div>
+
+<div class="flex-1">
+<div class="flex justify-between items-start">
+
+<div>
+<h3 class="text-slate-900 font-bold text-lg">
+{{ order.product.name }}
+</h3>
+
+<p class="text-slate-500 text-sm">
+Brand: {{ order.product.brand }}
+</p>
+
+<p class="text-slate-900 font-medium mt-2">
+Qty: 1
+</p>
+</div>
+
+<p class="text-slate-900 font-black text-xl">
+₹{{ order.selling_price }}
+</p>
+
+</div>
+</div>
+
+</div>
+{% endif %}
+
+</section>
+</div>
+<div class="lg:col-span-1">
+<aside class="sticky top-8 bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700">
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold mb-6">Order Summary</h2>
+<div class="space-y-4 mb-6">
+{% if is_cart_checkout %}
+{# Cart checkout totals #}
+<div class="flex justify-between text-slate-600 dark:text-slate-400">
+<span>Subtotal</span>
+<span class="font-semibold">₹{{ subtotal }}</span>
+</div>
+<div class="flex justify-between text-slate-600 dark:text-slate-400">
+<span>Shipping</span>
+<span class="text-green-600 font-medium">Free</span>
+</div>
+<div class="flex justify-between text-slate-600 dark:text-slate-400">
+<span>Tax (8%)</span>
+<span>₹{{ tax }}</span>
+</div>
+<div class="pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-between text-slate-900 dark:text-slate-100 font-black text-2xl">
+<span>Total</span>
+<span>₹{{ grand_total|floatformat:2 }}</span>
+</div>
+{% else %}
+{# Single product checkout totals #}
+<div class="flex justify-between text-slate-600 dark:text-slate-400">
+<span>Subtotal</span>
+<span class="font-semibold">₹{{ order.selling_price }}</span>
+</div>
+<div class="flex justify-between text-slate-600 dark:text-slate-400">
+<span>Shipping</span>
+<span class="text-green-600 font-medium">Free</span>
+</div>
+<div class="flex justify-between text-slate-600 dark:text-slate-400">
+<span>Estimated Tax</span>
+<span>₹0</span>
+</div>
+<div class="pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-between text-slate-900 dark:text-slate-100 font-black text-2xl">
+<span>Total</span>
+<span>₹{{order.selling_price|floatformat:2 }}</span>
+</div>
+{% endif %}
+</div>
+<form id="orderForm" method="POST" action="{% url 'place_order' %}">
+{% csrf_token %}
+{% if is_cart_checkout %}
+<input type="hidden" name="cart_id" id="cart_id" value="{{ cart.id }}">
+{% else %}
+<input type="hidden" name="variant_id" id="variant_id" value="{{ order.id }}">
+{% endif %}
+<input type="hidden" name="payment_method" id="payment_method" value="COD">
+
+<div class="mb-6">
+<div class="flex gap-2">
+<input class="flex-1 rounded-lg border-slate-200 dark:bg-slate-700 dark:border-slate-600 focus:ring-primary focus:border-primary text-sm" placeholder="Promo code" type="text"/>
+<button type="button" class="bg-primary/10 text-primary px-4 py-2 rounded-lg font-bold text-sm hover:bg-primary/20 transition-colors">Apply</button>
+</div>
+</div>
+<button type="submit" class="w-full bg-primary hover:bg-slate-800 text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
+                                    Place Order
+                                </button>
+</form>
+<p class="text-center text-xs text-slate-400 mt-4">
+                                    By placing your order, you agree to ShoppyO's <a class="underline" href="#">Terms of Use</a> and <a class="underline" href="#">Privacy Policy</a>.
+                                </p>
+</aside>
+<div class="mt-6 p-4 bg-blue-50 dark:bg-primary/20 rounded-lg flex items-start gap-3">
+<span class="material-symbols-outlined text-blue-600">verified_user</span>
+<div>
+<p class="text-xs font-bold text-blue-900 dark:text-blue-200 uppercase tracking-wider">ShoppyO Guarantee</p>
+<p class="text-xs text-blue-700 dark:text-blue-300 mt-1">Get your items as described or your money back. Secure checkout powered by encryption.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-background-dark/50 py-8 px-10 text-center">
+<p class="text-slate-500 text-sm">© 2024 ShoppyO Inc. All rights reserved.</p>
+</footer>
+</div>
+</div>
+</body>
+<script>
+function toggleAddressList() {
+    const addressList = document.getElementById('addressList');
+    addressList.classList.toggle('hidden');
+}
+
+function selectPayment(method) {
+    // Update the hidden input
+    document.getElementById('payment_method').value = method;
+
+    // Select all cards and ticks
+    const codCard = document.getElementById('card-COD');
+    const onlineCard = document.getElementById('card-ONLINE');
+    const codTick = document.getElementById('tick-COD');
+    const onlineTick = document.getElementById('tick-ONLINE');
+    const onlineIcon = document.getElementById('online-icon');
+
+    if (method === 'COD') {
+        // Style COD as active
+        codCard.classList.add('border-primary', 'bg-primary/5', 'border-2');
+        codCard.classList.remove('border-slate-200');
+        codTick.classList.remove('hidden');
+
+        // Style Online as inactive
+        onlineCard.classList.remove('border-primary', 'bg-primary/5', 'border-2');
+        onlineCard.classList.add('border-slate-200');
+        onlineTick.classList.add('hidden');
+        onlineIcon.classList.replace('text-primary', 'text-slate-500');
+    } else {
+        // Style Online as active
+        onlineCard.classList.add('border-primary', 'bg-primary/5', 'border-2');
+        onlineCard.classList.remove('border-slate-200');
+        onlineTick.classList.remove('hidden');
+        onlineIcon.classList.replace('text-slate-500', 'text-primary');
+
+        // Style COD as inactive
+        codCard.classList.remove('border-primary', 'bg-primary/5', 'border-2');
+        codCard.classList.add('border-slate-200');
+        codTick.classList.add('hidden');
+    }
+}
+setTimeout(() => {
+    const alerts = document.querySelectorAll('[role="alert"]');
+    alerts.forEach(alert => alert.style.display = 'none');
+}, 4000);
+</script>
+</html>

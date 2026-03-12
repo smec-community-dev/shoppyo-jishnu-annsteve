@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ShoppyO | Premium Product Listing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1a2d37",
+                        "background-light": "#f6f7f7",
+                        "background-dark": "#151a1d",
+                        "ice-blue": "#f0f4f8",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .custom-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+        }
+        .sidebar-item-active {
+            background-color: rgba(26, 45, 55, 0.08);
+            border-left: 3px solid #1a2d37;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light text-slate-900 dark:bg-background-dark dark:text-slate-100 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-primary text-white shadow-lg">
+<div class="max-w-[1440px] mx-auto flex items-center justify-between px-6 py-4">
+<!-- Logo -->
+<div class="flex items-center gap-3">
+<div class="bg-white/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-white text-3xl">diamond</span>
+</div>
+<h2 class="text-2xl font-bold tracking-tight">ShoppyO</h2>
+</div>
+<!-- Search Bar -->
+<div class="flex-1 max-w-xl px-12">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary">search</span>
+<input class="w-full bg-slate-800/50 border-none rounded-full py-2.5 pl-12 pr-4 focus:ring-2 focus:ring-white/20 text-white placeholder:text-slate-400 transition-all" placeholder="Search premium products..." type="text"/>
+</div>
+</div>
+<!-- Nav Links & Icons -->
+<div class="flex items-center gap-8">
+<nav class="hidden lg:flex items-center gap-6 font-medium text-sm uppercase tracking-wider">
+<a class="hover:text-ice-blue transition-colors" href="#">Home</a>
+<a class="text-ice-blue border-b-2 border-ice-blue pb-1" href="#">Shop</a>
+<a class="hover:text-ice-blue transition-colors" href="#">Deals</a>
+<a class="hover:text-ice-blue transition-colors" href="#">Support</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="relative p-2 hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute top-0 right-0 bg-red-500 text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+</button>
+<button class="p-2 hover:bg-white/10 rounded-full transition-colors">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area with Sidebar -->
+<main class="custom-gradient dark:from-background-dark dark:to-slate-900 min-h-[calc(100-80px)]">
+<div class="max-w-[1440px] mx-auto flex gap-8 px-6 py-8">
+<!-- Filter Sidebar -->
+<aside class="w-72 shrink-0 hidden md:block">
+<div class="space-y-8">
+
+<!-- Categories -->
+<div>
+    <h3 class="text-lg font-bold text-primary mb-4 flex items-center gap-2">
+        <span class="material-symbols-outlined text-xl">category</span>
+        All Categories
+    </h3>
+    <div class="space-y-1">
+        {% for cat in all_category %}
+        <a class="flex items-center justify-between p-3 rounded-lg transition-colors 
+           {% if cat.slug == category.slug %}sidebar-item-active text-primary font-semibold{% else %}hover:bg-primary/5 text-slate-600{% endif %}" 
+           href="{% url 'subcategory_list' cat.slug %}">
+            
+            <span>{{ cat.name }}</span>
+            
+            <span class="text-xs {% if cat.slug == category.slug %}bg-primary/10{% else %}text-slate-400{% endif %} px-2 py-0.5 rounded-full">
+                {{ cat.subcategories.count }}
+            </span>
+        </a>
+        {% empty %}
+        <p class="text-xs text-slate-400 p-3">No categories available.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Price Range
+<div>
+<h3 class="text-lg font-bold text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-xl">payments</span>
+                            Price Range
+                        </h3>
+<div class="px-2">
+<input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary" max="5000" min="0" type="range"/>
+<div class="flex justify-between mt-3 text-sm font-medium text-slate-600">
+<span>$0</span>
+<span>$5,000+</span>
+</div>
+</div>
+</div> -->
+<!-- Brand Checkboxes
+<div>
+<h3 class="text-lg font-bold text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-xl">verified</span>
+                            Top Brands
+                        </h3>
+<div class="space-y-3 px-1">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-slate-300 text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="text-slate-700 group-hover:text-primary transition-colors">Apple</span>
+<span class="ml-auto text-xs text-slate-400">45</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded border-slate-300 text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="text-slate-700 group-hover:text-primary transition-colors">Samsung</span>
+<span class="ml-auto text-xs text-slate-400">32</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-slate-300 text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="text-slate-700 group-hover:text-primary transition-colors">Sony</span>
+<span class="ml-auto text-xs text-slate-400">28</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-slate-300 text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="text-slate-700 group-hover:text-primary transition-colors">Dell</span>
+<span class="ml-auto text-xs text-slate-400">15</span>
+</label>
+</div>
+</div> -->
+</div>
+</aside>
+<!-- Product Display Area -->
+<section class="flex-1">
+<!-- Grid Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 bg-white/50 p-4 rounded-xl border border-white backdrop-blur-sm">
+<div>
+<h1 class="text-xl font-bold text-primary">Electronics &amp; Gadgets</h1>
+<p class="text-sm text-slate-500">Showing 1-12 of 124 results</p>
+</div>
+<!-- <div class="flex items-center gap-3">
+<span class="text-sm font-medium text-slate-600">Sort by:</span>
+<select class="rounded-lg border-slate-200 text-sm focus:ring-primary focus:border-primary pr-10">
+<option>Newest Arrivals</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Most Popular</option>
+</select>
+</div> -->
+</div>
+
+<!-- Product Grid -->
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for sub in sub_category %}
+    <div class="group relative bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col">
+        
+        <a href="{% url 'subcategory_product' sub.slug %}" class="absolute inset-0 z-10" aria-label="View {{ sub.name }}"></a>
+
+        <div class="relative aspect-square overflow-hidden bg-slate-50">
+            {% if sub.image_url %}
+                <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="{{ sub.image_url }}" alt="{{ sub.name }}"/>
+            {% else %}
+                <img class="w-full h-full object-cover" src="https://via.placeholder.com/400x400?text={{ sub.name }}" alt="{{ sub.name }}"/>
+            {% endif %}
+
+            <!-- <div class="absolute top-4 right-4 z-20">
+                <button type="button" class="bg-white/90 p-2 rounded-full shadow-md text-slate-400 hover:text-red-500 transition-colors">
+                    <span class="material-symbols-outlined">favorite</span>
+                </button>
+            </div> -->
+        </div>
+
+        <div class="p-5 flex flex-col flex-1">
+            <div class="flex items-center gap-1 mb-2">
+                <div class="flex text-amber-400">
+                    <span class="material-symbols-outlined !text-sm fill-current">star</span>
+                    <span class="material-symbols-outlined !text-sm fill-current">star</span>
+                    <span class="material-symbols-outlined !text-sm fill-current">star</span>
+                    <span class="material-symbols-outlined !text-sm fill-current">star</span>
+                    <span class="material-symbols-outlined !text-sm">star_half</span>
+                </div>
+                <span class="text-xs text-slate-400 font-medium">(128)</span>
+            </div>
+
+            <h3 class="font-bold text-slate-800 text-lg mb-2 line-clamp-2">{{ sub.name }}</h3>
+
+            <div class="mt-auto">
+                <div class="flex items-end justify-between">
+                    <div class="w-full bg-primary text-white p-3 rounded-lg group-hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+                        <span class="text-sm font-bold">Explore Now</span>
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <div class="col-span-full py-20 text-center">
+            <p class="text-slate-500 italic">No items found.</p>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+<div class="mt-12 flex justify-center">
+<nav class="flex items-center gap-1">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">3</button>
+<span class="px-2">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">12</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer Section -->
+<footer class="bg-primary text-slate-400 py-16">
+<div class="max-w-[1440px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+<!-- Brand & Mission -->
+<div class="space-y-6">
+<div class="flex items-center gap-3 text-white">
+<span class="material-symbols-outlined text-3xl">diamond</span>
+<h2 class="text-2xl font-bold tracking-tight">ShoppyO</h2>
+</div>
+<p class="text-sm leading-relaxed">
+                    Elevating your lifestyle with premium products handpicked for quality and performance. Experience the ShoppyO difference today.
+                </p>
+<div class="flex gap-4">
+<a class="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors" href="#">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
+</a>
+<a class="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors" href="#">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+</a>
+</div>
+</div>
+<!-- Links Sections -->
+<div>
+<h4 class="text-white font-bold mb-6">Quick Links</h4>
+<ul class="space-y-4 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">Latest Collection</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Gift Cards</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Our Story</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Affiliate Program</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6">Support</h4>
+<ul class="space-y-4 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">Track Your Order</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Shipping &amp; Returns</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<!-- Newsletter -->
+<div>
+<h4 class="text-white font-bold mb-6">Join the Circle</h4>
+<p class="text-sm mb-4">Subscribe for exclusive offers and premium releases.</p>
+<form class="space-y-3">
+<input class="w-full bg-white/5 border-white/10 rounded-lg py-2.5 px-4 text-white focus:ring-ice-blue" placeholder="Email address" type="email"/>
+<button class="w-full bg-ice-blue text-primary font-bold py-2.5 rounded-lg hover:bg-white transition-colors uppercase text-xs tracking-widest">Subscribe</button>
+</form>
+</div>
+</div>
+<div class="max-w-[1440px] mx-auto px-6 mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
+<p>© 2026 ShoppyO Premium E-commerce. All rights reserved.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined !text-xl opacity-50">payments</span>
+<span class="material-symbols-outlined !text-xl opacity-50">credit_card</span>
+<span class="material-symbols-outlined !text-xl opacity-50">account_balance_wallet</span>
+</div>
+</div>
+</footer>
+</body></html>
